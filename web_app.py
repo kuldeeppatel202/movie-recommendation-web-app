@@ -1,6 +1,8 @@
 import streamlit as st
 import pickle
 import requests
+import gzip
+import numpy as np
 
 def fetch_poster(id):
     url = "https://api.themoviedb.org/3/movie/{}?api_key=2784c86bbf7f14344a8fb2f0afa10f08&language=en-US".format(id)
@@ -11,7 +13,9 @@ def fetch_poster(id):
     return full_path
 
 new_data = pickle.load(open("movies_list.pkl", "rb"))
-similarity = pickle.load(open("similarity.pkl", "rb"))
+with gzip.open('similarity.pkl.gz', 'rb') as f:
+    similarity = pickle.load(f)
+
 
 movie_list = new_data['title'].values
 
